@@ -47,8 +47,14 @@ namespace SRRPlayer
         {
             money += amount;
             var props = GetProps();
+            if (CurrentState != props.State)
+            {
+                movementComponent.Rotate();
+            }
             CurrentState = props.State;
+            animatorComponent.PlayWalk(CurrentState);
             uiComponent.SetInfo(props.State, money, stateProps[stateProps.Length - 1].Value);
+            ActivateModel(props.State);
         }
         public void RemoveMoney(int amount)
         {
@@ -58,6 +64,7 @@ namespace SRRPlayer
                 levelManager.FinishGame(false);
             }
             var props = GetProps();
+            ActivateModel(props.State);
             CurrentState = props.State;
             uiComponent.SetInfo(props.State, money, stateProps[stateProps.Length - 1].Value);
         }
@@ -67,20 +74,28 @@ namespace SRRPlayer
             gameStarted = true;
             movementComponent.Init(item.Path);
             animatorComponent.PlayIdle();
+            ActivateModel(defaultProps.State);
         }
         private void OnLevelEnd(bool victory)
         {
             gameStarted = false;
             canMove = false;
+            uiComponent.SetActive(false);
+            if (victory)
+                animatorComponent.PlayVictory();
+            else
+                animatorComponent.PlayLose();
         }
         private void OnClick()
         {
+            if (canMove)
+                return;
             canMove = true;
             money = defaultProps.Value;
             CurrentState = defaultProps.State;
             uiComponent.SetActive(true);
             uiComponent.SetInfo(defaultProps.State, money, stateProps[stateProps.Length - 1].Value);
-            animatorComponent.PlayWalk(defaultProps.State);
+            animatorComponent.PlayWalk(CurrentState);
         }
         private void OnMove(int direction)
         {
@@ -90,7 +105,13 @@ namespace SRRPlayer
             }
             movementComponent.Move(direction);
         }
-
+        private void ActivateModel(PlayerState state)
+        {
+            for(int i = 0; i < stateProps.Length; i++)
+            {
+                stateProps[i].Model.SetActive(state == stateProps[i].State);
+            }
+        }
         private StateProps GetProps()
         {
             for (int i = stateProps.Length - 1; i >= 0; i--)
@@ -109,6 +130,7 @@ namespace SRRPlayer
         {
             [field: SerializeField] public PlayerState State { get; private set; }
             [field: SerializeField] public int Value { get; private set; }
+            [field: SerializeField] public GameObject Model { get; private set; }
         }
     }
 

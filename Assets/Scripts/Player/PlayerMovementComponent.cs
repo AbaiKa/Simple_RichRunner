@@ -1,4 +1,5 @@
 using PathCreation;
+using System.Collections;
 using UnityEngine;
 
 namespace SRRPlayer
@@ -44,11 +45,40 @@ namespace SRRPlayer
             model.localPosition = new Vector3(sidePosition, 0, 0);
             camera.localPosition = new Vector3(sidePosition, camera.localPosition.y, camera.localPosition.z);
             Quaternion targetModelEuler = Quaternion.Euler(0, direction * sideRotation, 0);
-            model.localRotation = Quaternion.Slerp(model.localRotation, targetModelEuler, sideSpeed * Time.deltaTime);
+            if (!isRotating)
+            {
+                model.localRotation = Quaternion.Slerp(model.localRotation, targetModelEuler, sideSpeed * Time.deltaTime);
+            }
 
             var targetRotation = pathComponent.path.GetRotationAtDistance(elapsedDistance, EndOfPathInstruction.Stop).eulerAngles;
             transform.rotation = Quaternion.Euler(targetRotation.x, targetRotation.y, 0);
         }
+        private bool isRotating = false;
+        public void Rotate()
+        {
+            isRotating = true;
+            StartCoroutine(RotateOverTime(0.2f));
+        }
+        private IEnumerator RotateOverTime(float duration)
+        {
+            float elapsedTime = 0f;
+            float startY = model.localRotation.eulerAngles.y;
+            float targetY = startY + 360f;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / duration;
+                float newY = Mathf.Lerp(startY, targetY, t);
+
+                model.localRotation = Quaternion.Euler(0, newY, 0);
+                yield return null;
+            }
+
+            model.localRotation = Quaternion.Euler(0, targetY, 0);
+            isRotating = false;
+        }
+
 
         private void OnDrawGizmosSelected()
         {
