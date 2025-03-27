@@ -12,7 +12,7 @@ namespace SRRPlayer
         }
         public void PlayWalk(PlayerState state)
         {
-            SetState((int)state);
+            SetState(Mathf.Clamp((int)state, 1, 4));
         }
         public void PlayVictory()
         {

@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour, IService
     private LevelItem currentLevel;
 
     public UnityEvent<LevelItem> onStart = new UnityEvent<LevelItem>();
-    public UnityEvent<LevelItem> onEnd = new UnityEvent<LevelItem>();
+    public UnityEvent<bool> onEnd = new UnityEvent<bool>();
     public IEnumerator Init(Action<float, string> progress)
     {
         StartGame(0);
@@ -31,5 +31,9 @@ public class LevelManager : MonoBehaviour, IService
             currentLevel.Init();
             onStart?.Invoke(currentLevel);
         }
+    }
+    public void FinishGame(bool victory)
+    {
+        onEnd?.Invoke(victory);
     }
 }
