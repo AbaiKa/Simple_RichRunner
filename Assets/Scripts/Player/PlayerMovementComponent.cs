@@ -14,7 +14,7 @@ namespace SRRPlayer
         [Tooltip("Отвечает за смещение в стороны")] private float sideOffset = 1.5f;
         [SerializeField, Range(0, 5)]
         [Tooltip("Отвечает за скорость смещения в стороны")] private float sideSpeed = 1.5f;
-        [SerializeField, Range(0, 30)]
+        [SerializeField, Range(0, 50)]
         [Tooltip("Отвечает за угол поворота персонажа при смещении")] private float sideRotation = 10f;
 
         private PathCreator pathComponent;
@@ -26,6 +26,8 @@ namespace SRRPlayer
             transform.position = pathComponent.path.GetPointAtDistance(elapsedDistance, EndOfPathInstruction.Stop);
             var targetRotation = pathComponent.path.GetRotationAtDistance(elapsedDistance, EndOfPathInstruction.Stop).eulerAngles;
             transform.rotation = Quaternion.Euler(targetRotation.x, targetRotation.y, 0);
+            model.localPosition = Vector3.zero;
+            camera.localPosition = new Vector3(0, camera.localPosition.y, camera.localPosition.z);
         }
         public void Move(int direction)
         {

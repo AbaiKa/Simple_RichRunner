@@ -346,23 +346,23 @@ MonoBehaviour:
   uiComponent: {fileID: 7969170732064375680}
   defaultProps:
     <State>k__BackingField: 1
-    <Value>k__BackingField: 25
+    <Value>k__BackingField: 15
     <Model>k__BackingField: {fileID: 6357616799727679470}
   stateProps:
   - <State>k__BackingField: 0
     <Value>k__BackingField: 1
     <Model>k__BackingField: {fileID: 6032669728185345349}
   - <State>k__BackingField: 1
-    <Value>k__BackingField: 25
+    <Value>k__BackingField: 15
     <Model>k__BackingField: {fileID: 2169287826371794369}
   - <State>k__BackingField: 2
-    <Value>k__BackingField: 50
+    <Value>k__BackingField: 40
     <Model>k__BackingField: {fileID: 6357616799727679470}
   - <State>k__BackingField: 3
     <Value>k__BackingField: 80
     <Model>k__BackingField: {fileID: 1690485138311161973}
   - <State>k__BackingField: 4
-    <Value>k__BackingField: 100
+    <Value>k__BackingField: 120
     <Model>k__BackingField: {fileID: 6057177384146511746}
 --- !u!114 &5558663406348290323
 MonoBehaviour:
@@ -394,7 +394,7 @@ MonoBehaviour:
   movementSpeed: 3
   sideOffset: 2.1
   sideSpeed: 5
-  sideRotation: 30
+  sideRotation: 40
 --- !u!114 &7969170732064375680
 MonoBehaviour:
   m_ObjectHideFlags: 0

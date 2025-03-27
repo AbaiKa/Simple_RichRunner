@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ResourceTrigger : ATrigger
 {
+    [SerializeField] private bool isKillParent;
     [SerializeField] private bool isMinus;
     [SerializeField] private int value;
     protected override void OnTrigger(Player player)
@@ -18,5 +19,6 @@ public class ResourceTrigger : ATrigger
 
         ServicesManager.Instance.Get<AudioManager>().Play(interactSound);
         gameObject.SetActive(false);
+        if(isKillParent) transform.parent.gameObject.SetActive(false);
     }
 }
