@@ -13,7 +13,6 @@ namespace SRRPlayer
         public void PlayWalk(PlayerState state)
         {
             SetState((int)state);
-            //animatorComponent.SetTrigger("walk");
         }
         public void PlayVictory()
         {
