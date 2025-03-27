@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private LevelManager levelManager;
+    [SerializeField] private AudioManager audioManager;
 
     private ServicesManager servicesManager;
     private void Awake()
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
 
         servicesManager.Register(playerManager);
         servicesManager.Register(levelManager);
+        servicesManager.Register(audioManager);
 
         StartCoroutine(InitRoutine());
     }

@@ -16,6 +16,7 @@ public class ResourceTrigger : ATrigger
             player.AddMoney(value);
         }
 
-        Destroy(gameObject);
+        ServicesManager.Instance.Get<AudioManager>().Play(interactSound);
+        gameObject.SetActive(false);
     }
 }

@@ -16,6 +16,8 @@ namespace SRRPlayer
 
         private LevelManager levelManager;
 
+        public PlayerState CurrentState { get; private set; }
+
         private int money;
         private bool gameStarted = false;
         private bool canMove = false;
@@ -45,6 +47,7 @@ namespace SRRPlayer
         {
             money += amount;
             var props = GetProps();
+            CurrentState = props.State;
             uiComponent.SetInfo(props.State, money, stateProps[stateProps.Length - 1].Value);
         }
         public void RemoveMoney(int amount)
@@ -55,6 +58,7 @@ namespace SRRPlayer
                 levelManager.FinishGame(false);
             }
             var props = GetProps();
+            CurrentState = props.State;
             uiComponent.SetInfo(props.State, money, stateProps[stateProps.Length - 1].Value);
         }
         private void OnLevelStart(LevelItem item)
@@ -73,6 +77,7 @@ namespace SRRPlayer
         {
             canMove = true;
             money = defaultProps.Value;
+            CurrentState = defaultProps.State;
             uiComponent.SetActive(true);
             uiComponent.SetInfo(defaultProps.State, money, stateProps[stateProps.Length - 1].Value);
             animatorComponent.PlayWalk(defaultProps.State);

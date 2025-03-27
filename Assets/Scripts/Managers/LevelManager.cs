@@ -7,6 +7,8 @@ public class LevelManager : MonoBehaviour, IService
 {
     [SerializeField] private Transform container;
     [SerializeField] private LevelItem[] levelItems;
+    [SerializeField] private AudioClip victorySound;
+    [SerializeField] private AudioClip loseSound;
 
     private LevelItem currentLevel;
 
@@ -34,6 +36,7 @@ public class LevelManager : MonoBehaviour, IService
     }
     public void FinishGame(bool victory)
     {
+        ServicesManager.Instance.Get<AudioManager>().Play(victory ? victorySound : loseSound);
         onEnd?.Invoke(victory);
     }
 }
