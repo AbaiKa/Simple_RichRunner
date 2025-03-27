@@ -1,3 +1,4 @@
+using PathCreation;
 using System;
 using UnityEngine;
 
@@ -7,6 +8,20 @@ namespace SRRPlayer
     {
         [Header("Components")]
         [SerializeField] private PlayerAnimatorComponent animatorComponent;
+        [SerializeField] private PlayerMovementComponent movementComponent;
+
+        [SerializeField] private PathCreator pathCreator;
+
+        private void Start()
+        {
+            movementComponent.Init(pathCreator);
+            animatorComponent.PlayWalk(PlayerState.Poor);
+        }
+
+        private void Update()
+        {
+            movementComponent.Move();
+        }
     }
 
     [Serializable]
