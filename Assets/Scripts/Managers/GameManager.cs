@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IService
 {
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private AudioManager audioManager;
+    [SerializeField] private UIManager uiManager;
+    [SerializeField] private LoadingManager loadingManager;
 
     private ServicesManager servicesManager;
     private void Awake()
@@ -14,11 +16,18 @@ public class GameManager : MonoBehaviour
         servicesManager = new ServicesManager();
         servicesManager.Init();
 
+        servicesManager.Register(this);
+        servicesManager.Register(loadingManager);
         servicesManager.Register(playerManager);
         servicesManager.Register(levelManager);
         servicesManager.Register(audioManager);
+        servicesManager.Register(uiManager);
 
         StartCoroutine(InitRoutine());
+    }
+    public void Restart()
+    {
+        levelManager.StartGame(playerManager.CurrentLevel);
     }
     private IEnumerator InitRoutine()
     {
@@ -40,5 +49,10 @@ public class GameManager : MonoBehaviour
         {
             progressCallback(progress);
         }));
+    }
+
+    public IEnumerator Init(Action<float, string> progress)
+    {
+        yield return null;
     }
 }

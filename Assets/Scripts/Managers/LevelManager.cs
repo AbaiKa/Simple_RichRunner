@@ -37,6 +37,7 @@ public class LevelManager : MonoBehaviour, IService
     public void FinishGame(bool victory)
     {
         ServicesManager.Instance.Get<AudioManager>().Play(victory ? victorySound : loseSound);
+        ServicesManager.Instance.Get<UIManager>().GameOver(victory);
         onEnd?.Invoke(victory);
     }
 }
