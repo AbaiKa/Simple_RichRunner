@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetRotation: {x: 0, y: 0, z: 0}
-  duration: 1
+  duration: 0.5
 --- !u!1 &4951002882818401854
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,4 +316,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetRotation: {x: 0, y: 0, z: 0}
-  duration: 1
+  duration: 0.5

@@ -74,6 +74,8 @@ namespace SRRPlayer
             gameStarted = true;
             movementComponent.Init(item.Path);
             animatorComponent.PlayIdle();
+            money = defaultProps.Value;
+            CurrentState = defaultProps.State;
             ActivateModel(defaultProps.State);
         }
         private void OnLevelEnd(bool victory)

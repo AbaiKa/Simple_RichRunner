@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour, IService
         {
             if (currentLevel != null)
             {
-                Destroy(currentLevel);
+                Destroy(currentLevel.gameObject);
             }
 
             currentLevel = Instantiate(levelItems[id], container);

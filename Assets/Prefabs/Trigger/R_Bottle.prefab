@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactSound: {fileID: 8300000, guid: a80ca5cf057023f43905b69cb1c29ca5, type: 3}
   isMinus: 1
-  value: 10
+  value: 20
 --- !u!136 &4411138051248397192
 CapsuleCollider:
   m_ObjectHideFlags: 0
