@@ -17,11 +17,11 @@ public class GameManager : MonoBehaviour, IService
         servicesManager.Init();
 
         servicesManager.Register(this);
+        servicesManager.Register(uiManager);
         servicesManager.Register(loadingManager);
         servicesManager.Register(playerManager);
         servicesManager.Register(levelManager);
         servicesManager.Register(audioManager);
-        servicesManager.Register(uiManager);
 
         StartCoroutine(InitRoutine());
     }

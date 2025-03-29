@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SRRPlayer
 {
     public class Player : MonoBehaviour
     {
-        [Header("Components")]
+        [field: Header("Components")]
+        [field: SerializeField] public Camera Camera { get; private set; }  
         [SerializeField] private PlayerAnimatorComponent animatorComponent;
         [SerializeField] private PlayerMovementComponent movementComponent;
         [SerializeField] private PlayerUIComponent uiComponent;
@@ -13,12 +15,16 @@ namespace SRRPlayer
         [Header("Properties")]
         [SerializeField] private StateProps defaultProps;
         [SerializeField] private StateProps[] stateProps;
+        [Header("Effects")]
+        [SerializeField] private ParticleSystem moneyEffect;
+        [SerializeField] private ParticleSystem bloodEffect;
 
+        public UnityEvent<int> onMoneyChange = new UnityEvent<int>();
         private LevelManager levelManager;
 
         public PlayerState CurrentState { get; private set; }
+        public int Money { get; private set; }
 
-        private int money;
         private bool gameStarted = false;
         private bool canMove = false;
         public void Init()
@@ -45,7 +51,7 @@ namespace SRRPlayer
 
         public void AddMoney(int amount)
         {
-            money += amount;
+            Money += amount;
             var props = GetProps();
             if (CurrentState != props.State)
             {
@@ -53,20 +59,28 @@ namespace SRRPlayer
             }
             CurrentState = props.State;
             animatorComponent.PlayWalk(CurrentState);
-            uiComponent.SetInfo(props.State, money, stateProps[stateProps.Length - 1].Value);
+            uiComponent.SetInfo(props.State, Money, stateProps[stateProps.Length - 1].Value);
             ActivateModel(props.State);
+
+            onMoneyChange?.Invoke(Money);
+
+            moneyEffect.Play();
         }
         public void RemoveMoney(int amount)
         {
-            money = Mathf.Max(money - amount, 0);
-            if(money == 0)
+            Money = Mathf.Max(Money - amount, 0);
+            if(Money == 0)
             {
                 levelManager.FinishGame(false);
             }
             var props = GetProps();
             ActivateModel(props.State);
             CurrentState = props.State;
-            uiComponent.SetInfo(props.State, money, stateProps[stateProps.Length - 1].Value);
+            uiComponent.SetInfo(props.State, Money, stateProps[stateProps.Length - 1].Value);
+
+            onMoneyChange?.Invoke(Money);
+
+            bloodEffect.Play();
         }
         private void OnLevelStart(LevelItem item)
         {
@@ -74,7 +88,7 @@ namespace SRRPlayer
             gameStarted = true;
             movementComponent.Init(item.Path);
             animatorComponent.PlayIdle();
-            money = defaultProps.Value;
+            Money = defaultProps.Value;
             CurrentState = defaultProps.State;
             ActivateModel(defaultProps.State);
         }
@@ -93,10 +107,10 @@ namespace SRRPlayer
             if (canMove)
                 return;
             canMove = true;
-            money = defaultProps.Value;
+            Money = defaultProps.Value;
             CurrentState = defaultProps.State;
             uiComponent.SetActive(true);
-            uiComponent.SetInfo(defaultProps.State, money, stateProps[stateProps.Length - 1].Value);
+            uiComponent.SetInfo(defaultProps.State, Money, stateProps[stateProps.Length - 1].Value);
             animatorComponent.PlayWalk(CurrentState);
         }
         private void OnMove(int direction)
@@ -118,7 +132,7 @@ namespace SRRPlayer
         {
             for (int i = stateProps.Length - 1; i >= 0; i--)
             {
-                if (stateProps[i].Value <= money)
+                if (stateProps[i].Value <= Money)
                 {
                     return stateProps[i];
                 }

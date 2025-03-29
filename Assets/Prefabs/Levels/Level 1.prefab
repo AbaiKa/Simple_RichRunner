@@ -277,6 +277,7 @@ MonoBehaviour:
   isKillParent: 1
   isMinus: 1
   value: 20
+  rotationSpeed: 0
 --- !u!65 &5623489831336228787
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -948,6 +949,7 @@ MonoBehaviour:
   isKillParent: 1
   isMinus: 0
   value: 20
+  rotationSpeed: 0
 --- !u!65 &6647605212962056253
 BoxCollider:
   m_ObjectHideFlags: 0
